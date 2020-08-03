@@ -1,0 +1,7 @@
+('naive_bayes', '0.942')
+('decision_tree_classification', '0.959')
+('k_nearest_neighbors', '0.947')
+('logistic_regression', '0.947')
+('random_forest_classification', '0.936')
+('support_vector_machine', '0.942')
+('kernel_svm', '0.953')
