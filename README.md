@@ -5,9 +5,9 @@ Before run, you should open your terminal first on your machine
 To run:
 1. change your working directory to where you have all the files
 2. Type: gcc main.c
-3. <Enter>
+3. Enter
 4. Type: ./a.out
-5. <Enter>
+5. Enter
 6. Check out the result on terminal
 7. check out the result in the predictions directory
 
