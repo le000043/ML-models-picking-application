@@ -1,4 +1,4 @@
-# Optimized-ML-application
+# ML-application
 application to reduce the time taken to load and run various Machine Learning algorithms
 
 Before run, you should open your terminal first on your machine
