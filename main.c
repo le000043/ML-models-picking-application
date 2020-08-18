@@ -18,46 +18,53 @@
 
 
 
-  #define NUM  7
+  #define NUM  8 // including the pre-processing python script
   #define INTERPRETER "python3"
 
   pthread_mutex_t mutexes[NUM]; 
 
 int main(int argc, char *argv[]){
   remove("output.txt");
-  int num = NUM;
-  pthread_t *ptr = (pthread_t*)malloc(sizeof(pthread_t) * num); 
-  for (int i=0; i<num;i++){
+  pthread_t *ptr = (pthread_t*)malloc(sizeof(pthread_t) * NUM); 
+  // creating mutex 1D array
+  for (int i=0; i<NUM;i++){
     pthread_mutex_init(&mutexes[i],NULL);
   }
 
 	void *ptr_func();
 
-  float accuracy_array[num];
-
-  struct arg_struct args[num];
-  for (int i = 0; i < num; i++){
+  float accuracy_array[NUM];
+  // preparing algorithms array
+  struct arg_struct args[NUM];
+  for (int i = 0; i < NUM; i++){
     args[i].index = i;
     args[i].arg1 = INTERPRETER;
   }
-    args[0].arg2 = "kernel_svm.py";
-    args[1].arg2 = "decision_tree_classification.py";
-    args[2].arg2 = "k_nearest_neighbors.py";
-    args[3].arg2 = "naive_bayes.py";
-    args[4].arg2 = "support_vector_machine.py";
-    args[5].arg2 = "random_forest_classification.py";
-    args[6].arg2 = "logistic_regression.py";
+    args[0].arg2 = "pre_processing.py";
+    args[1].arg2 = "kernel_svm.py";
+    args[2].arg2 = "decision_tree_classification.py";
+    args[3].arg2 = "k_nearest_neighbors.py";
+    args[4].arg2 = "naive_bayes.py";
+    args[5].arg2 = "support_vector_machine.py";
+    args[6].arg2 = "random_forest_classification.py";
+    args[7].arg2 = "logistic_regression.py";
 
-    for (int i = 0; i < num;i++){
-      pthread_create(&ptr[i], NULL,                 // start a user thread to read input
+    // pre-processing
+    pthread_create(&ptr[0], NULL,                 // run pre-processing python file
+                       ptr_func, (void *)&args[0]);
+    pthread_join(ptr[0], NULL);
+
+    // running all algorithms
+    for (int i = 1; i < NUM;i++){
+      pthread_create(&ptr[i], NULL,                 // run all python files
                        ptr_func, (void *)&args[i]);
     }
     
-    for (int i = 0; i < num;i++){
+    for (int i = 0; i < NUM;i++){
       pthread_join(ptr[i], NULL);
     }
 
-    for(int i=0; i<num;i++){
+    for(int i=0; i<NUM;i++){
       pthread_mutex_destroy(&mutexes[i]);
     }
 
