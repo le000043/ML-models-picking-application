@@ -10,8 +10,10 @@ import pandas as pd
 import os
 from os import path
 import pickle
+import sys
 
-
+argsList = sys.argv
+dataset_name = ""
 """## Importing the dataset"""
 
 # dataset = pd.read_csv('Breast_cancer_data.csv')
@@ -77,11 +79,11 @@ def record(string,accuracy):
 accuracy = str(format(accuracy_score(y_test, y_pred),'.3f'))
 # savetxt('y_pred_original.csv', y_test, delimiter=',')
 print(record("decision_tree_classification",accuracy))
-
+# print(y_pred)
 # saving the model and scaler for later use
 
 os.chdir("../models")
-pkl_model_filename = 'decision_tree_classification_model.pkl'
+pkl_model_filename = 'decision_tree_classification'+dataset_name+'_model.pkl'
 with open (pkl_model_filename,'wb') as file:
   pickle.dump(classifier, file)
 

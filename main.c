@@ -19,11 +19,14 @@
 
 
   #define NUM  8 // including the pre-processing python script
+  #define PYTHON_ARGUMENTS_SIZE 5
   #define INTERPRETER "python3"
-
   pthread_mutex_t mutexes[NUM]; 
 
 int main(int argc, char *argv[]){
+  char *csv_file_name = argv[1]; //Breast_cancer_data.csv 
+  //Real_estate_valuation_data_set.csv
+  char *dataset_name = "";
   remove("output.txt");
   pthread_t *ptr = (pthread_t*)malloc(sizeof(pthread_t) * NUM); 
   // creating mutex 1D array
@@ -38,16 +41,19 @@ int main(int argc, char *argv[]){
   struct arg_struct args[NUM];
   for (int i = 0; i < NUM; i++){
     args[i].index = i;
-    args[i].arg1 = INTERPRETER;
+    args[i].interpreter_name = INTERPRETER;
+    args[i].csv_file_name = csv_file_name;
+    args[i].dataset_name = dataset_name;
+
   }
-    args[0].arg2 = "pre_processing.py";
-    args[1].arg2 = "kernel_svm.py";
-    args[2].arg2 = "decision_tree_classification.py";
-    args[3].arg2 = "k_nearest_neighbors.py";
-    args[4].arg2 = "naive_bayes.py";
-    args[5].arg2 = "support_vector_machine.py";
-    args[6].arg2 = "random_forest_classification.py";
-    args[7].arg2 = "logistic_regression.py";
+    args[0].python_file_name = "pre_processing.py";
+    args[1].python_file_name = "kernel_svm.py";
+    args[2].python_file_name = "decision_tree_classification.py";
+    args[3].python_file_name = "k_nearest_neighbors.py";
+    args[4].python_file_name = "naive_bayes.py";
+    args[5].python_file_name = "support_vector_machine.py";
+    args[6].python_file_name = "random_forest_classification.py";
+    args[7].python_file_name = "logistic_regression.py";
 
     // pre-processing
     pthread_create(&ptr[0], NULL,                 // run pre-processing python file
@@ -117,11 +123,11 @@ void *ptr_func(void *arg){
         }
 	if (child_pid == 0) { // CHILD CODE
 		// char *argvList[4] = {"python3","helloworld.py","abc",NULL};
-    char *argvList[3] = {args->arg1,args->arg2,NULL};
+    char *argvList[PYTHON_ARGUMENTS_SIZE] = {args->interpreter_name,args->python_file_name,args->csv_file_name,args->dataset_name,NULL};
 
     close(out_pipe[PREAD]);
     dup2(out_pipe[PWRITE], STDOUT_FILENO); // Redirect stdout to pipe
-		execvp(args->arg1,argvList);
+		execvp(args->interpreter_name,argvList);
 		perror("something wrong with exec\n");
 	}
   else {

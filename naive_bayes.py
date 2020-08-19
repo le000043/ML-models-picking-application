@@ -12,7 +12,7 @@ import pandas as pd
 import os
 from os import path
 import pickle
-model_name = 'kernel_svm'
+model_name = 'naive_bayes'
 data_name = 'Breast_cancer_data'
 
 

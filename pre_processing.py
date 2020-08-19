@@ -5,9 +5,12 @@ import pandas as pd
 import os
 from os import path
 import pickle
+import sys
 
-data_name = 'Breast_cancer_data'
-dataset = pd.read_csv('Breast_cancer_data.csv')
+argsList = sys.argv     # arguments from C script
+
+data_name = argsList[1]
+dataset = pd.read_csv(data_name)
 X = dataset.iloc[:, :-1].values.astype(float)
 y = dataset.iloc[:, -1].values.astype(float)
 

@@ -12,8 +12,10 @@
 #define PREAD 0                 // index of read end of pipe
 #define PWRITE 1                // index of write end of pipe
 struct arg_struct {
-    char *arg1;
-    char *arg2;
+    char *interpreter_name;
+    char *python_file_name;
+    char *csv_file_name;
+    char *dataset_name;
     int index;
 };
 char *sanitize(char *);

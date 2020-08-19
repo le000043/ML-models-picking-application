@@ -50,16 +50,17 @@ y_test = pd.read_csv('y_test.csv')
 # loading scaler
 pkl_scaler_filename = selected_scaler + '_scaler.pkl'
 
-os.chdir('../scalers')
-with open (pkl_scaler_filename,'rb') as file:
-  pickle_scaler = pickle.load(file)
-X_test = pickle_scaler.transform(X_test) # same X-test
-savetxt('X_test_copy.csv', X_test, delimiter=',')
+# os.chdir('../scalers')
+# with open (pkl_scaler_filename,'rb') as file:
+#   pickle_scaler = pickle.load(file)
+# X_test = pickle_scaler.transform(X_test) # same X-test
+# savetxt('X_test_copy.csv', X_test, delimiter=',')
 
 # loading model and predicting test
 os.chdir('..')
 os.chdir('models')
 pkl_filename = selected_model + '_model.pkl'
+print("running "+pkl_filename)
 with open (pkl_filename,'rb') as file:
   pickle_model = pickle.load(file)
 y_pred = pickle_model.predict(X_test)

@@ -12,7 +12,7 @@ import pandas as pd
 import os
 from os import path
 import pickle
-model_name = 'kernel_svm'
+model_name = 'logistic_regression'
 data_name = 'Breast_cancer_data'
 
 import warnings
