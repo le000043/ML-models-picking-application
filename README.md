@@ -13,3 +13,4 @@ To run:
 
 Any feedbacks are all appreciated ! 
 New features coming soon ! Follow me and stay tune for new awesome features 
+Constraints: Currently, the application can only handle numerical dataset with zero missing values. I will fix it soon
