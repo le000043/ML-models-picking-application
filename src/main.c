@@ -21,14 +21,17 @@
   #define NUM  8 // including the pre-processing python script
   #define PYTHON_ARGUMENTS_SIZE 5
   #define INTERPRETER "python3"
-  pthread_mutex_t mutexes[NUM]; 
+  pthread_mutex_t mutexes[NUM];
 
 int main(int argc, char *argv[]){
-  char *csv_file_name = argv[1]; //Breast_cancer_data.csv 
+  char *csv_file_name = argv[1]; //Breast_cancer_data.csv
+  // COMING UPDATE: csv_file_name will be the input from a python interface script
+
   //Real_estate_valuation_data_set.csv
   char *dataset_name = "";
+  
   remove("output.txt");
-  pthread_t *ptr = (pthread_t*)malloc(sizeof(pthread_t) * NUM); 
+  pthread_t *ptr = (pthread_t*)malloc(sizeof(pthread_t) * NUM);
   // creating mutex 1D array
   for (int i=0; i<NUM;i++){
     pthread_mutex_init(&mutexes[i],NULL);
@@ -44,7 +47,7 @@ int main(int argc, char *argv[]){
     args[i].interpreter_name = INTERPRETER;
     args[i].csv_file_name = csv_file_name;
     args[i].dataset_name = dataset_name;
-
+    // COMING UPDATE:
   }
     args[0].python_file_name = "pre_processing.py";
     args[1].python_file_name = "kernel_svm.py";
@@ -54,7 +57,7 @@ int main(int argc, char *argv[]){
     args[5].python_file_name = "support_vector_machine.py";
     args[6].python_file_name = "random_forest_classification.py";
     args[7].python_file_name = "logistic_regression.py";
-
+    // COMING UPDATE: an interface will be run to modify the csv_file_name variable
     // pre-processing
     pthread_create(&ptr[0], NULL,                 // run pre-processing python file
                        ptr_func, (void *)&args[0]);
@@ -65,7 +68,7 @@ int main(int argc, char *argv[]){
       pthread_create(&ptr[i], NULL,                 // run all python files
                        ptr_func, (void *)&args[i]);
     }
-    
+
     for (int i = 0; i < NUM;i++){
       pthread_join(ptr[i], NULL);
     }
@@ -95,11 +98,11 @@ int main(int argc, char *argv[]){
     } else {
       // PARENT CODE
       int status;
-      pid_t main_finishedPID = waitpid(main_child_pid, &status, 0); 
+      pid_t main_finishedPID = waitpid(main_child_pid, &status, 0);
       if (WIFEXITED(status)) {
         char result[1024];
         int main_nread = read(main_out_pipe[PREAD], &result, 1024);
-        write(STDOUT_FILENO,&result,main_nread); 
+        write(STDOUT_FILENO,&result,main_nread);
       }
 
     }
@@ -111,7 +114,7 @@ void *ptr_func(void *arg){
   out_pipe[1] = -1;
 
   int stdout_bak = dup(STDOUT_FILENO);
-		
+
     struct arg_struct *args = (struct arg_struct *)arg;
 
 
@@ -133,7 +136,7 @@ void *ptr_func(void *arg){
   else {
   //           //PARENT CODE
             int status;
-            pid_t finishedPID = waitpid(child_pid, &status, 0); 
+            pid_t finishedPID = waitpid(child_pid, &status, 0);
   //                       //macros used to check for exit status
                         if (WIFEXITED(status)) {
                           char result[1024];
@@ -149,17 +152,16 @@ void *ptr_func(void *arg){
                             int fdout = open(file_name,O_CREAT | O_RDWR | O_APPEND, S_IRUSR | S_IWUSR);
 
                             // write(STDOUT_FILENO,&t,1024);
-                            pthread_mutex_lock(&mutexes[args->index]); 
+                            pthread_mutex_lock(&mutexes[args->index]);
                             write(fdout,&result,nread); // MT unsafe
                             pthread_mutex_unlock(&mutexes[args->index]);
 
 
-                            // accuracy_array[args->index] = 
                           }
-                          
+
                         }
 
-            
+
     }
     return NULL;
 }
