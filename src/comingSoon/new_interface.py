@@ -12,8 +12,9 @@ root = Tk()
 def getInputFile():
     # hello = "Hello "+e.get()
     # my_label01 = Label(root,text = hello).grid(row = 2,column = 0)
-    root.filename = filedialog.askopenfilename(initialdir = "/images",title="select a file",filetypes = (("png files","*.png"),("all files","*.*")))
+    root.filename = filedialog.askopenfilename(initialdir = ".",title="select a file",filetypes = (("all files","*.*")))
     # my_label01 = Label(root,text = root.filename).grid(row = 2,column = 0)
+    print(root.filename)
     my_label01 = Label(root,text = root.filename).pack()
 
 myButtons0 = Button(root,text= "click to choose input file",padx = 250,pady = 5, command = getInputFile, fg = "green",bg = "black").pack()
@@ -24,3 +25,5 @@ myButtons0 = Button(root,text= "click to choose input file",padx = 250,pady = 5,
 # state = DISABLED
 root.geometry("500x200")
 root.mainloop()
+print(name)
+return name

@@ -10,6 +10,8 @@ import sys
 argsList = sys.argv     # arguments from C script
 
 data_name = argsList[1]
+# print('data_name is '+data_name)
+data_name = data_name[:-1]
 dataset = pd.read_csv(data_name)
 X = dataset.iloc[:, :-1].values.astype(float)
 y = dataset.iloc[:, -1].values.astype(float)
@@ -29,7 +31,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, rand
 
 # os.chdir("../test_data")
 # csvFile03 = open('X_test.csv','w')
-# current_path = os.path.dirname('test_data') 
+# current_path = os.path.dirname('test_data')
 # csvFile04 = open('y_test.csv','w')
 # savetxt(csvFile03, X_test, delimiter=',', header = column)
 # savetxt(csvFile04, y_test, delimiter=',', header = column[0])
@@ -57,7 +59,7 @@ savetxt(csvFile02, y_train, delimiter=',')
 
 os.chdir("../test_data")
 csvFile03 = open('X_test.csv','w')
-current_path = os.path.dirname('test_data') 
+current_path = os.path.dirname('test_data')
 csvFile04 = open('y_test.csv','w')
 savetxt(csvFile03, X_test, delimiter=',', header = column)
 savetxt(csvFile04, y_test, delimiter=',', header = column[0])
@@ -65,4 +67,3 @@ csvFile01.close()
 csvFile02.close()
 csvFile03.close()
 csvFile04.close()
-
