@@ -1,7 +1,8 @@
 # ML models picking application
 application to reduce the time taken to load and run various Machine Learning algorithms
 
-Before run, you should open your terminal first on your machine
+Before run, you should open your terminal first on your machine.
+
 To run:
 1. change your working directory to where you have all the files
 2. Type: python3 interface.py
