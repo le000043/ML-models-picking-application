@@ -14,7 +14,6 @@ import os
 from os import path
 import pickle
 model_name = 'kernel_svm'
-data_name = 'Breast_cancer_data'
 
 """## Training the Kernel SVM model on the Training set"""
 os.chdir("train_data")

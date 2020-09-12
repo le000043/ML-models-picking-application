@@ -15,7 +15,6 @@ struct arg_struct {
     char *interpreter_name;
     char *python_file_name;
     char *csv_file_name;
-    char *dataset_name;
     int index;
 };
 char *sanitize(char *);

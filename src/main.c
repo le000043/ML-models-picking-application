@@ -24,9 +24,9 @@
   pthread_mutex_t mutexes[NUM];
   char csv_file_name[1024];
 int main(int argc, char *argv[]){
-  // char *csv_file_name = ""; //Breast_cancer_data.csv
-
-  //Real_estate_valuation_data_set.csv
+   char *csv_file_name = argv[1]; //Breast_cancer_data.csv
+   char *test_dataset = argv[2];
+   char *output_file_name = argv[3];
 
   remove("output.txt");
   pthread_t *ptr = (pthread_t*)malloc(sizeof(pthread_t) * NUM);
@@ -53,18 +53,20 @@ int main(int argc, char *argv[]){
     args[8].python_file_name = "logistic_regression.py";
 
     // running file choosing interface
-    args[0].index = 0;
-    args[0].interpreter_name = INTERPRETER;
-    args[0].csv_file_name = "";
-    pthread_create(&ptr[0], NULL,                 // run pre-processing python file
-                       ptr_interface, (void *)&args[0]);
-    pthread_join(ptr[0], NULL);
 
+    // args[0].index = 0;
+    // args[0].interpreter_name = INTERPRETER;
+    // args[0].csv_file_name = "";
+    // pthread_create(&ptr[0], NULL,                 // run pre-processing python file
+    //                    ptr_interface, (void *)&args[0]);
+    // pthread_join(ptr[0], NULL);
+    //
     for (int i = 1; i < NUM; i++){
       args[i].index = i;
       args[i].interpreter_name = INTERPRETER;
       args[i].csv_file_name = csv_file_name;
     }
+
     // pre-processing including splitting train and test sets
     pthread_create(&ptr[1], NULL,
                        ptr_func, (void *)&args[1]);
@@ -89,7 +91,7 @@ int main(int argc, char *argv[]){
     main_out_pipe[0] = -1;
     main_out_pipe[1] = -1;
 
-    // code below run read_file.py to find the best model for the given dataset
+    // code below run read_file.py to find the BEST model for the given dataset
     // pipe initilization
     pipe(main_out_pipe);
 
@@ -100,7 +102,7 @@ int main(int argc, char *argv[]){
     if (main_child_pid == 0){
       // CHILD CODE
       char *arg_name = "python3";
-      char *arg_list[3] = {"python3","read_file.py",NULL};
+      char *arg_list[6] = {"python3","model_picking.py",csv_file_name,test_dataset,output_file_name,NULL};
 
       close(main_out_pipe[PREAD]);                          // child does not need to read from the pipe
       dup2(main_out_pipe[PWRITE], STDOUT_FILENO);           // override the standard output file descriptor

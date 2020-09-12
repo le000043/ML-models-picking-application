@@ -11,7 +11,7 @@ argsList = sys.argv     # arguments from C script
 
 data_name = argsList[1]
 # print('data_name is '+data_name)
-data_name = data_name[:-1]
+# data_name = data_name[:-1]
 dataset = pd.read_csv(data_name)
 X = dataset.iloc[:, :-1].values.astype(float)
 y = dataset.iloc[:, -1].values.astype(float)
