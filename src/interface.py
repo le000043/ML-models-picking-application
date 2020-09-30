@@ -44,9 +44,9 @@ def getInputFile():
     my_label01 = Label(root,text = (root.filename).split('/')[-1]).pack()
     in_str.set((root.filename).split('/')[-1])
     os.system("gcc main.c")
-    myButtons0 = Button(root,text= "Choose directory for test file",padx = 250,pady = 5, command = getTestFile, fg = "green",bg = "black").pack()
+    myButtons0 = Button(root,text= "Click to choose directory for test file",padx = 250,pady = 5, command = getTestFile, fg = "green",bg = "black").pack()
 # creating a file-selecting button
-myButtons0 = Button(root,text= "Choose input file",padx = 250,pady = 5, command = getInputFile, fg = "green",bg = "black").pack()
+myButtons0 = Button(root,text= "Click to choose input file",padx = 250,pady = 5, command = getInputFile, fg = "green",bg = "black").pack()
 
 root.geometry("520x240")
 # in = ""
